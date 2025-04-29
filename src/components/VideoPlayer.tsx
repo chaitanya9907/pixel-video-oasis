@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Maximize } from 'lucide-react';
 import { VideoData } from '@/lib/data';
+import { toast } from "@/components/ui/use-toast";
 
 interface VideoPlayerProps {
   video: VideoData;
@@ -14,6 +15,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
   const [volume, setVolume] = useState(1);
   const [showControls, setShowControls] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsTimerRef = useRef<number | null>(null);
@@ -57,7 +59,18 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play();
+        const playPromise = videoRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error('Playback error:', error);
+            toast({
+              title: "Playback Error",
+              description: "There was a problem playing this video. Please try again.",
+              variant: "destructive"
+            });
+          });
+        }
       }
       setIsPlaying(!isPlaying);
     }
@@ -72,6 +85,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      setIsLoading(false);
     }
   };
 
@@ -109,11 +123,39 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  const handleVideoError = () => {
+    console.error("Video failed to load");
+    setIsLoading(false);
+    toast({
+      title: "Video Error",
+      description: "This video is currently unavailable. Please try again later.",
+      variant: "destructive"
+    });
+  };
+
+  const skipForward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += 10;
+    }
+  };
+
+  const skipBackward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime -= 10;
+    }
+  };
+
   return (
     <div 
       className="relative w-full h-full bg-black"
       onMouseEnter={() => setShowControls(true)}
     >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+          <div className="w-12 h-12 border-4 border-t-pixelverse-accent border-pixelverse-dark rounded-full animate-spin"></div>
+        </div>
+      )}
+      
       <video
         ref={videoRef}
         src={video.videoUrl}
@@ -122,7 +164,11 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => setIsPlaying(false)}
+        onError={handleVideoError}
+        onLoadStart={() => setIsLoading(true)}
         poster={video.thumbnailUrl}
+        playsInline
+        preload="metadata"
       />
       
       {/* Video Controls */}
@@ -149,7 +195,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             {/* Play/Pause Button */}
-            <button onClick={handlePlayPause} className="text-white">
+            <button onClick={handlePlayPause} className="text-white hover:text-pixelverse-accent transition-colors">
               {isPlaying ? (
                 <Pause className="w-6 h-6" />
               ) : (
@@ -158,17 +204,17 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
             </button>
             
             {/* Skip Buttons */}
-            <button onClick={() => videoRef.current && (videoRef.current.currentTime -= 10)} className="text-white">
+            <button onClick={skipBackward} className="text-white hover:text-pixelverse-accent transition-colors">
               <SkipBack className="w-5 h-5" />
             </button>
             
-            <button onClick={() => videoRef.current && (videoRef.current.currentTime += 10)} className="text-white">
+            <button onClick={skipForward} className="text-white hover:text-pixelverse-accent transition-colors">
               <SkipForward className="w-5 h-5" />
             </button>
             
             {/* Volume Controls */}
             <div className="flex items-center gap-2">
-              <button onClick={toggleMute} className="text-white">
+              <button onClick={toggleMute} className="text-white hover:text-pixelverse-accent transition-colors">
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-5 h-5" />
                 ) : (
@@ -184,6 +230,9 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
                 value={isMuted ? 0 : volume}
                 onChange={handleVolumeChange}
                 className="w-16 h-1 bg-gray-600 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #7E22CE ${(isMuted ? 0 : volume) * 100}%, #333 0)`,
+                }}
               />
             </div>
             
@@ -195,7 +244,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
           
           <div>
             {/* Fullscreen Button */}
-            <button onClick={handleFullscreen} className="text-white">
+            <button onClick={handleFullscreen} className="text-white hover:text-pixelverse-accent transition-colors">
               <Maximize className="w-5 h-5" />
             </button>
           </div>
