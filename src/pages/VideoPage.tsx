@@ -16,6 +16,7 @@ const VideoPage = () => {
   const [relatedVideos, setRelatedVideos] = useState(
     videoData.filter(v => v.category === video?.category && v.id !== id)
   );
+  const [userUploads, setUserUploads] = useState<typeof videoData>([]);
 
   useEffect(() => {
     // Update video and related videos when ID changes
@@ -27,6 +28,9 @@ const VideoPage = () => {
         videoData.filter(v => v.category === currentVideo.category && v.id !== id)
       );
     }
+    
+    // Get user uploads
+    setUserUploads(videoData.filter(v => v.isUserUploaded && v.id !== id));
     
     // Scroll to top when video changes
     window.scrollTo(0, 0);
@@ -76,12 +80,28 @@ const VideoPage = () => {
               <span>{video.category}</span>
               <span>•</span>
               <span>{video.duration}</span>
+              {video.isUserUploaded && (
+                <>
+                  <span>•</span>
+                  <span className="bg-pixelverse-accent/20 text-pixelverse-accent px-2 py-0.5 rounded-full text-xs">
+                    My Upload
+                  </span>
+                </>
+              )}
             </div>
             
             <p className="text-gray-300 max-w-3xl">
               {video.description}
             </p>
           </div>
+          
+          {/* User Uploads - show only if there are other uploads */}
+          {userUploads.length > 0 && (
+            <ContentRow
+              title="My Other Uploads"
+              videos={userUploads}
+            />
+          )}
           
           {/* Related Videos */}
           {relatedVideos.length > 0 && (
@@ -94,7 +114,7 @@ const VideoPage = () => {
           {/* More to Explore */}
           <ContentRow 
             title="More to Explore" 
-            videos={videoData.filter(v => v.id !== id)}
+            videos={videoData.filter(v => v.id !== id && !v.isUserUploaded)}
           />
         </div>
       </main>

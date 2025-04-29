@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
@@ -9,11 +8,14 @@ import { videoData, featuredVideos, categories } from '@/lib/data';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [userUploads, setUserUploads] = useState<typeof videoData>([]);
 
   useEffect(() => {
     // Simulate loading data
     const timer = setTimeout(() => {
       setIsLoading(false);
+      // Find user uploaded videos
+      setUserUploads(videoData.filter(video => video.isUserUploaded));
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -52,8 +54,13 @@ const Index = () => {
             <UploadButton />
           </div>
           
+          {/* User Uploads Section - show only if user has uploads */}
+          {userUploads.length > 0 && (
+            <ContentRow title="My Uploads" videos={userUploads} />
+          )}
+          
           {/* Trending Now (all videos) */}
-          <ContentRow title="" videos={videoData} />
+          <ContentRow title="" videos={videoData.filter(video => !video.isUserUploaded)} />
           
           {/* Categories */}
           {categories.map(category => (
