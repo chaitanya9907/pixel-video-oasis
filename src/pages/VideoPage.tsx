@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import VideoPlayer from '@/components/VideoPlayer';
 import ContentRow from '@/components/ContentRow';
 import Footer from '@/components/Footer';
+import UploadButton from '@/components/UploadButton';
 import { videoData } from '@/lib/data';
 
 const VideoPage = () => {
@@ -54,10 +55,14 @@ const VideoPage = () => {
         
         <div className="content-container">
           {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 py-4 text-gray-400 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to browse
-          </Link>
+          <div className="flex justify-between items-center py-4">
+            <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+              Back to browse
+            </Link>
+            
+            <UploadButton />
+          </div>
           
           {/* Video Info */}
           <div className="py-6">

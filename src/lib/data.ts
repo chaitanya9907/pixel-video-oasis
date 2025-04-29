@@ -10,6 +10,7 @@ export interface VideoData {
   featured?: boolean;
   year: number;
   rating: string;
+  isUserUploaded?: boolean;
 }
 
 // Demo data for our streaming app
@@ -110,3 +111,15 @@ export const videoData: VideoData[] = [
 export const categories = [...new Set(videoData.map(video => video.category))];
 
 export const featuredVideos = videoData.filter(video => video.featured);
+
+// Function to add a user uploaded video to the data
+export const addUserUploadedVideo = (video: Omit<VideoData, 'id'>) => {
+  const newVideo: VideoData = {
+    ...video,
+    id: `user-${Date.now()}`,
+    isUserUploaded: true
+  };
+  
+  videoData.push(newVideo);
+  return newVideo;
+};

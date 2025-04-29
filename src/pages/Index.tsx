@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ContentRow from '@/components/ContentRow';
 import Footer from '@/components/Footer';
+import UploadButton from '@/components/UploadButton';
 import { videoData, featuredVideos, categories } from '@/lib/data';
 
 const Index = () => {
@@ -46,8 +47,13 @@ const Index = () => {
         
         {/* Content Sections */}
         <div className="content-container py-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-medium">Trending Now</h2>
+            <UploadButton />
+          </div>
+          
           {/* Trending Now (all videos) */}
-          <ContentRow title="Trending Now" videos={videoData} />
+          <ContentRow title="" videos={videoData} />
           
           {/* Categories */}
           {categories.map(category => (
