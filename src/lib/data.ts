@@ -7,15 +7,22 @@ export interface VideoData {
   videoUrl: string;
   duration: string;
   category: string;
-  type: "movie" | "tvshow" | "popular" | "other";  // Added type categorization
+  type: "movie" | "tvshow" | "popular" | "other";
   featured?: boolean;
   year: number;
   rating: string;
   isUserUploaded?: boolean;
+  isYouTube?: boolean;
 }
 
-// Demo data for our streaming app
-export const videoData: VideoData[] = [
+// Get local stored videos from localStorage
+const getLocalStoredVideos = (): VideoData[] => {
+  const storedVideos = localStorage.getItem('hotstar_user_uploads');
+  return storedVideos ? JSON.parse(storedVideos) : [];
+};
+
+// Initialize video data
+const initialVideoData: VideoData[] = [
   {
     id: "v1",
     title: "Ocean Exploration",
@@ -164,22 +171,100 @@ export const videoData: VideoData[] = [
     featured: true,
     year: 2023,
     rating: "PG"
-  }
+  },
+  // Adding Telugu Songs
+  {
+    id: "ts1",
+    title: "Tillu Anna DJ Pedithe",
+    description: "Trending Telugu song from the movie DJ Tillu starring Siddhu Jonnalagadda and Neha Shetty.",
+    thumbnailUrl: "https://i.ytimg.com/vi/yAn_4Zy0NfE/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/yAn_4Zy0NfE",
+    duration: "4:15",
+    category: "Telugu Songs",
+    type: "popular",
+    year: 2022,
+    rating: "PG",
+    isYouTube: true
+  },
+  {
+    id: "ts2",
+    title: "Pushpa - Srivalli",
+    description: "Popular Telugu song from the movie Pushpa starring Allu Arjun and Rashmika Mandanna.",
+    thumbnailUrl: "https://i.ytimg.com/vi/hcMzwMrr1tE/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/hcMzwMrr1tE",
+    duration: "3:58",
+    category: "Telugu Songs",
+    type: "popular",
+    year: 2021,
+    rating: "PG",
+    isYouTube: true
+  },
+  {
+    id: "ts3",
+    title: "Oo Antava - Pushpa",
+    description: "Hit song from the movie Pushpa featuring Samantha Ruth Prabhu and Allu Arjun.",
+    thumbnailUrl: "https://i.ytimg.com/vi/CuEwky_yD_k/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/CuEwky_yD_k",
+    duration: "3:18",
+    category: "Telugu Songs",
+    type: "popular",
+    year: 2021,
+    rating: "PG-13",
+    isYouTube: true
+  },
+  {
+    id: "ts4",
+    title: "Saami Saami - Pushpa",
+    description: "Melodious Telugu song from the movie Pushpa starring Allu Arjun and Rashmika Mandanna.",
+    thumbnailUrl: "https://i.ytimg.com/vi/4MPvXuX0JYc/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/4MPvXuX0JYc",
+    duration: "3:47",
+    category: "Telugu Songs",
+    type: "popular",
+    year: 2021,
+    rating: "PG",
+    isYouTube: true
+  },
+  {
+    id: "ts5",
+    title: "Butta Bomma - Ala Vaikunthapurramuloo",
+    description: "Popular Telugu song featuring Allu Arjun and Pooja Hegde from the movie Ala Vaikunthapurramuloo.",
+    thumbnailUrl: "https://i.ytimg.com/vi/2mDCVzruYzQ/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/2mDCVzruYzQ",
+    duration: "4:12",
+    category: "Telugu Songs",
+    type: "popular",
+    year: 2020,
+    rating: "PG",
+    isYouTube: true
+  },
 ];
+
+// Merge initial data with locally stored videos
+export let videoData: VideoData[] = [...initialVideoData, ...getLocalStoredVideos()];
 
 export const categories = [...new Set(videoData.map(video => video.category))];
 
 export const featuredVideos = videoData.filter(video => video.featured);
 
-// Function to add a user uploaded video to the data
+// Function to add a user uploaded video to the data and save to localStorage
 export const addUserUploadedVideo = (video: Omit<VideoData, 'id'>) => {
   const newVideo: VideoData = {
     ...video,
     id: `user-${Date.now()}`,
     isUserUploaded: true,
-    type: "other"  // Default type for user uploads
   };
   
   videoData.push(newVideo);
+  
+  // Save all user uploaded videos to localStorage
+  const userUploads = videoData.filter(v => v.isUserUploaded);
+  localStorage.setItem('hotstar_user_uploads', JSON.stringify(userUploads));
+  
   return newVideo;
+};
+
+// Function to get user uploaded videos
+export const getUserUploadedVideos = () => {
+  return videoData.filter(video => video.isUserUploaded);
 };

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -27,6 +28,8 @@ const CategoryPage = () => {
         videos = videoData.filter(video => video.type === 'tvshow');
       } else if (category === 'popular') {
         videos = videoData.filter(video => video.type === 'popular');
+      } else if (category === 'telugusongs') {
+        videos = videoData.filter(video => video.category === 'Telugu Songs');
       }
       
       setFilteredVideos(videos);
@@ -43,6 +46,8 @@ const CategoryPage = () => {
         return 'TV Shows';
       case 'popular':
         return 'New & Popular';
+      case 'telugusongs':
+        return 'Telugu Songs';
       default:
         return 'Videos';
     }
@@ -50,10 +55,10 @@ const CategoryPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-pixelverse-darker">
+      <div className="min-h-screen flex items-center justify-center bg-hotstar-darker">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-t-pixelverse-accent border-pixelverse-dark rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-xl font-medium bg-gradient-to-r from-pixelverse-accent to-pixelverse-highlight bg-clip-text text-transparent">
+          <div className="w-16 h-16 border-4 border-t-hotstar-accent border-hotstar-dark rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-xl font-medium bg-gradient-to-r from-hotstar-accent to-hotstar-highlight bg-clip-text text-transparent">
             Loading {getCategoryTitle()}...
           </p>
         </div>
@@ -62,7 +67,7 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-pixelverse-darker">
+    <div className="min-h-screen bg-hotstar-darker">
       <Navbar />
       
       <main className="pt-20">

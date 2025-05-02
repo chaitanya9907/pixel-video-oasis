@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
@@ -23,11 +24,11 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-pixelverse-darker">
+      <div className="min-h-screen flex items-center justify-center bg-hotstar-darker">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-t-pixelverse-accent border-pixelverse-dark rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-xl font-medium bg-gradient-to-r from-pixelverse-accent to-pixelverse-highlight bg-clip-text text-transparent">
-            Loading PixelVerse...
+          <div className="w-16 h-16 border-4 border-t-hotstar-accent border-hotstar-dark rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-xl font-medium bg-gradient-to-r from-hotstar-accent to-hotstar-highlight bg-clip-text text-transparent">
+            Loading Hotstar...
           </p>
         </div>
       </div>
@@ -39,8 +40,11 @@ const Index = () => {
     return videoData.filter(video => video.category === category);
   };
 
+  // Get Telugu Songs
+  const teluguSongs = videoData.filter(video => video.category === 'Telugu Songs');
+
   return (
-    <div className="min-h-screen bg-pixelverse-darker">
+    <div className="min-h-screen bg-hotstar-darker">
       <Navbar />
       
       <main>
@@ -57,6 +61,11 @@ const Index = () => {
           {/* User Uploads Section - show only if user has uploads */}
           {userUploads.length > 0 && (
             <ContentRow title="My Uploads" videos={userUploads} />
+          )}
+          
+          {/* Telugu Songs Section */}
+          {teluguSongs.length > 0 && (
+            <ContentRow title="Telugu Songs" videos={teluguSongs} />
           )}
           
           {/* Trending Now (all videos) */}

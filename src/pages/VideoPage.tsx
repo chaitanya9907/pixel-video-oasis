@@ -38,7 +38,7 @@ const VideoPage = () => {
 
   if (!video) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-pixelverse-darker">
+      <div className="min-h-screen flex items-center justify-center bg-hotstar-darker">
         <div className="text-center">
           <p className="text-xl font-medium">Video not found</p>
           <Link to="/" className="mt-4 button-primary inline-flex">Go back home</Link>
@@ -48,7 +48,7 @@ const VideoPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-pixelverse-darker">
+    <div className="min-h-screen bg-hotstar-darker">
       <Navbar />
       
       <main className="pt-20">
@@ -73,7 +73,7 @@ const VideoPage = () => {
             <h1 className="text-3xl font-bold mb-2">{video.title}</h1>
             
             <div className="flex items-center gap-2 text-sm text-gray-300 mb-4">
-              <span className="text-pixelverse-accent font-semibold">{video.rating}</span>
+              <span className="text-hotstar-accent font-semibold">{video.rating}</span>
               <span>•</span>
               <span>{video.year}</span>
               <span>•</span>
@@ -83,7 +83,7 @@ const VideoPage = () => {
               {video.isUserUploaded && (
                 <>
                   <span>•</span>
-                  <span className="bg-pixelverse-accent/20 text-pixelverse-accent px-2 py-0.5 rounded-full text-xs">
+                  <span className="bg-hotstar-accent/20 text-hotstar-accent px-2 py-0.5 rounded-full text-xs">
                     My Upload
                   </span>
                 </>

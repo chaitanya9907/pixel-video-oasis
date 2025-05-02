@@ -20,6 +20,21 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsTimerRef = useRef<number | null>(null);
 
+  // If it's a YouTube video, we need to render an iframe
+  if (video.isYouTube) {
+    return (
+      <div className="relative w-full h-full">
+        <iframe 
+          src={`${video.videoUrl}?autoplay=1&controls=1`}
+          className="w-full h-full"
+          title={video.title}
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
+      </div>
+    );
+  }
+
   useEffect(() => {
     // Auto-hide controls after 3 seconds of inactivity
     const handleMouseMove = () => {
@@ -152,7 +167,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
     >
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-          <div className="w-12 h-12 border-4 border-t-pixelverse-accent border-pixelverse-dark rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-t-hotstar-accent border-hotstar-dark rounded-full animate-spin"></div>
         </div>
       )}
       
@@ -187,7 +202,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
             onChange={handleSeek}
             className="w-full h-1 bg-gray-600 rounded-full appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, #7E22CE ${(currentTime / (duration || 1)) * 100}%, #333 0)`,
+              background: `linear-gradient(to right, #9b87f5 ${(currentTime / (duration || 1)) * 100}%, #333 0)`,
             }}
           />
         </div>
@@ -195,7 +210,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             {/* Play/Pause Button */}
-            <button onClick={handlePlayPause} className="text-white hover:text-pixelverse-accent transition-colors">
+            <button onClick={handlePlayPause} className="text-white hover:text-hotstar-accent transition-colors">
               {isPlaying ? (
                 <Pause className="w-6 h-6" />
               ) : (
@@ -204,17 +219,17 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
             </button>
             
             {/* Skip Buttons */}
-            <button onClick={skipBackward} className="text-white hover:text-pixelverse-accent transition-colors">
+            <button onClick={skipBackward} className="text-white hover:text-hotstar-accent transition-colors">
               <SkipBack className="w-5 h-5" />
             </button>
             
-            <button onClick={skipForward} className="text-white hover:text-pixelverse-accent transition-colors">
+            <button onClick={skipForward} className="text-white hover:text-hotstar-accent transition-colors">
               <SkipForward className="w-5 h-5" />
             </button>
             
             {/* Volume Controls */}
             <div className="flex items-center gap-2">
-              <button onClick={toggleMute} className="text-white hover:text-pixelverse-accent transition-colors">
+              <button onClick={toggleMute} className="text-white hover:text-hotstar-accent transition-colors">
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-5 h-5" />
                 ) : (
@@ -231,7 +246,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
                 onChange={handleVolumeChange}
                 className="w-16 h-1 bg-gray-600 rounded-full appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #7E22CE ${(isMuted ? 0 : volume) * 100}%, #333 0)`,
+                  background: `linear-gradient(to right, #9b87f5 ${(isMuted ? 0 : volume) * 100}%, #333 0)`,
                 }}
               />
             </div>
@@ -244,7 +259,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
           
           <div>
             {/* Fullscreen Button */}
-            <button onClick={handleFullscreen} className="text-white hover:text-pixelverse-accent transition-colors">
+            <button onClick={handleFullscreen} className="text-white hover:text-hotstar-accent transition-colors">
               <Maximize className="w-5 h-5" />
             </button>
           </div>

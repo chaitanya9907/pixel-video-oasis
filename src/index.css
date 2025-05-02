@@ -43,7 +43,7 @@
   }
 
   body {
-    @apply bg-pixelverse-darker text-foreground antialiased;
+    @apply bg-hotstar-darker text-foreground antialiased;
   }
 
   /* Custom scrollbar */
@@ -53,15 +53,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-pixelverse-darker;
+    @apply bg-hotstar-darker;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-pixelverse-muted rounded-full;
+    @apply bg-hotstar-muted rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-pixelverse-accent;
+    @apply bg-hotstar-accent;
   }
 }
 
@@ -71,7 +71,7 @@
   }
 
   .nav-link {
-    @apply px-4 py-2 text-sm rounded-md hover:bg-pixelverse-muted/20 transition-colors font-medium;
+    @apply px-4 py-2 text-sm rounded-md hover:bg-hotstar-muted/20 transition-colors font-medium;
   }
 
   .content-container {
@@ -79,14 +79,14 @@
   }
   
   .gradient-overlay {
-    @apply absolute inset-0 bg-gradient-to-t from-pixelverse-darker via-pixelverse-darker/80 to-transparent;
+    @apply absolute inset-0 bg-gradient-to-t from-hotstar-darker via-hotstar-darker/80 to-transparent;
   }
 
   .button-primary {
-    @apply px-6 py-2.5 bg-pixelverse-accent hover:bg-pixelverse-highlight text-white font-medium rounded-md transition-colors flex items-center gap-2;
+    @apply px-6 py-2.5 bg-hotstar-accent hover:bg-hotstar-highlight text-white font-medium rounded-md transition-colors flex items-center gap-2;
   }
 
   .button-secondary {
-    @apply px-6 py-2.5 bg-pixelverse-muted hover:bg-pixelverse-muted/80 text-white font-medium rounded-md transition-colors flex items-center gap-2;
+    @apply px-6 py-2.5 bg-hotstar-muted hover:bg-hotstar-muted/80 text-white font-medium rounded-md transition-colors flex items-center gap-2;
   }
 }
