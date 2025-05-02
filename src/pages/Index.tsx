@@ -6,6 +6,7 @@ import ContentRow from '@/components/ContentRow';
 import Footer from '@/components/Footer';
 import UploadButton from '@/components/UploadButton';
 import { videoData, featuredVideos, categories } from '@/lib/data';
+import { allTeluguSongs } from '@/lib/teluguSongsData';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,9 +41,6 @@ const Index = () => {
     return videoData.filter(video => video.category === category);
   };
 
-  // Get Telugu Songs
-  const teluguSongs = videoData.filter(video => video.category === 'Telugu Songs');
-
   return (
     <div className="min-h-screen bg-hotstar-darker">
       <Navbar />
@@ -58,14 +56,12 @@ const Index = () => {
             <UploadButton />
           </div>
           
+          {/* Telugu Songs Section */}
+          <ContentRow title="Telugu Trending Songs" videos={allTeluguSongs} />
+          
           {/* User Uploads Section - show only if user has uploads */}
           {userUploads.length > 0 && (
             <ContentRow title="My Uploads" videos={userUploads} />
-          )}
-          
-          {/* Telugu Songs Section */}
-          {teluguSongs.length > 0 && (
-            <ContentRow title="Telugu Songs" videos={teluguSongs} />
           )}
           
           {/* Trending Now (all videos) */}
