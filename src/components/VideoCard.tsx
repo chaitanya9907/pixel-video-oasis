@@ -27,6 +27,22 @@ const VideoCard = ({ video }: VideoCardProps) => {
         />
       </div>
       
+      {/* Type Badge */}
+      {video.type && (
+        <div className="absolute top-2 right-2 bg-pixelverse-accent/80 text-white text-xs px-2 py-1 rounded">
+          {video.type === 'movie' ? 'Movie' : 
+           video.type === 'tvshow' ? 'TV Show' : 
+           video.type === 'popular' ? 'Popular' : ''}
+        </div>
+      )}
+      
+      {/* User Upload Indicator */}
+      {video.isUserUploaded && (
+        <div className="absolute top-2 left-2 bg-green-500/80 text-white text-xs px-2 py-1 rounded">
+          My Upload
+        </div>
+      )}
+      
       {/* Hover Overlay */}
       <div className={`absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center transition-opacity duration-300 ${
         isHovered ? 'opacity-100' : 'opacity-0'

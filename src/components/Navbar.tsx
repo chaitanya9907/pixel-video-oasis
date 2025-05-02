@@ -1,12 +1,13 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Search, User, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +18,16 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Function to check if a link is active
+  const isActiveLink = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <header 
@@ -37,10 +48,42 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/" className="nav-link">Movies</Link>
-          <Link to="/" className="nav-link">TV Shows</Link>
-          <Link to="/" className="nav-link">New & Popular</Link>
+          <Link 
+            to="/" 
+            className={cn(
+              "nav-link", 
+              isActiveLink("/") && "text-pixelverse-accent"
+            )}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/category/movies" 
+            className={cn(
+              "nav-link", 
+              isActiveLink("/category/movies") && "text-pixelverse-accent"
+            )}
+          >
+            Movies
+          </Link>
+          <Link 
+            to="/category/tvshows" 
+            className={cn(
+              "nav-link", 
+              isActiveLink("/category/tvshows") && "text-pixelverse-accent"
+            )}
+          >
+            TV Shows
+          </Link>
+          <Link 
+            to="/category/popular" 
+            className={cn(
+              "nav-link", 
+              isActiveLink("/category/popular") && "text-pixelverse-accent"
+            )}
+          >
+            New & Popular
+          </Link>
         </nav>
 
         {/* Right Side Actions */}
@@ -66,10 +109,42 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-pixelverse-dark py-4 px-6 animate-fade-in">
           <nav className="flex flex-col space-y-3">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/" className="nav-link">Movies</Link>
-            <Link to="/" className="nav-link">TV Shows</Link>
-            <Link to="/" className="nav-link">New & Popular</Link>
+            <Link 
+              to="/" 
+              className={cn(
+                "nav-link", 
+                isActiveLink("/") && "text-pixelverse-accent"
+              )}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/category/movies" 
+              className={cn(
+                "nav-link", 
+                isActiveLink("/category/movies") && "text-pixelverse-accent"
+              )}
+            >
+              Movies
+            </Link>
+            <Link 
+              to="/category/tvshows" 
+              className={cn(
+                "nav-link", 
+                isActiveLink("/category/tvshows") && "text-pixelverse-accent"
+              )}
+            >
+              TV Shows
+            </Link>
+            <Link 
+              to="/category/popular" 
+              className={cn(
+                "nav-link", 
+                isActiveLink("/category/popular") && "text-pixelverse-accent"
+              )}
+            >
+              New & Popular
+            </Link>
           </nav>
         </div>
       )}

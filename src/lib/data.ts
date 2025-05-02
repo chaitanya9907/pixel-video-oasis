@@ -7,6 +7,7 @@ export interface VideoData {
   videoUrl: string;
   duration: string;
   category: string;
+  type: "movie" | "tvshow" | "popular" | "other";  // Added type categorization
   featured?: boolean;
   year: number;
   rating: string;
@@ -23,6 +24,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     duration: "2:45",
     category: "Documentary",
+    type: "movie",
     featured: true,
     year: 2023,
     rating: "PG"
@@ -35,6 +37,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     duration: "3:12",
     category: "Drama",
+    type: "movie",
     year: 2022,
     rating: "PG-13"
   },
@@ -46,6 +49,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
     duration: "4:30",
     category: "Science",
+    type: "tvshow",
     featured: true,
     year: 2023,
     rating: "G"
@@ -58,6 +62,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     duration: "3:45",
     category: "Adventure",
+    type: "movie",
     year: 2021,
     rating: "PG"
   },
@@ -69,6 +74,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
     duration: "2:55",
     category: "Food",
+    type: "tvshow",
     year: 2022,
     rating: "G"
   },
@@ -80,6 +86,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     duration: "3:20",
     category: "Nature",
+    type: "popular",
     featured: true,
     year: 2023,
     rating: "G"
@@ -92,6 +99,7 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
     duration: "4:15",
     category: "Technology",
+    type: "popular",
     year: 2021,
     rating: "PG"
   },
@@ -103,8 +111,59 @@ export const videoData: VideoData[] = [
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
     duration: "3:05",
     category: "Design",
+    type: "movie",
     year: 2022,
     rating: "G"
+  },
+  // Adding more videos
+  {
+    id: "v9",
+    title: "Desert Odyssey",
+    description: "Journey through the vast expanse of the world's most beautiful deserts and discover their hidden secrets.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+    duration: "4:10",
+    category: "Travel",
+    type: "movie",
+    year: 2023,
+    rating: "PG"
+  },
+  {
+    id: "v10",
+    title: "City Lights",
+    description: "Experience the vibrant nightlife of the world's most electric cities as they come alive after dark.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+    duration: "3:30",
+    category: "Urban",
+    type: "popular",
+    year: 2022,
+    rating: "PG-13"
+  },
+  {
+    id: "v11",
+    title: "Forest Mysteries",
+    description: "Delve into the ancient woodlands and uncover the hidden stories and creatures of these mystical environments.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+    duration: "3:15",
+    category: "Nature",
+    type: "tvshow",
+    year: 2021,
+    rating: "G"
+  },
+  {
+    id: "v12",
+    title: "Space Frontiers",
+    description: "Join the newest generation of astronauts as they push the boundaries of space exploration to new limits.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+    duration: "4:25",
+    category: "Science",
+    type: "popular",
+    featured: true,
+    year: 2023,
+    rating: "PG"
   }
 ];
 
@@ -117,7 +176,8 @@ export const addUserUploadedVideo = (video: Omit<VideoData, 'id'>) => {
   const newVideo: VideoData = {
     ...video,
     id: `user-${Date.now()}`,
-    isUserUploaded: true
+    isUserUploaded: true,
+    type: "other"  // Default type for user uploads
   };
   
   videoData.push(newVideo);
