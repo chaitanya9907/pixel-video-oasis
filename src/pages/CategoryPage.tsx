@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -21,13 +20,12 @@ const CategoryPage = () => {
       
       // Filter videos based on category
       let videos: typeof videoData = [];
-      const categoryType = category as CategoryType;
       
-      if (categoryType === 'movies') {
+      if (category === 'movies') {
         videos = videoData.filter(video => video.type === 'movie');
-      } else if (categoryType === 'tvshows') {
+      } else if (category === 'tvshows') {
         videos = videoData.filter(video => video.type === 'tvshow');
-      } else if (categoryType === 'popular') {
+      } else if (category === 'popular') {
         videos = videoData.filter(video => video.type === 'popular');
       }
       

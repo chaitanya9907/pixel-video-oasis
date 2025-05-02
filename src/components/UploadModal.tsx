@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { Upload, FileVideo, FileAudio, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
@@ -24,7 +23,8 @@ const uploadSchema = z.object({
   description: z.string().min(5, "Description must be at least 5 characters"),
   category: z.string().min(1, "Please select a category"),
   year: z.number().min(1900).max(new Date().getFullYear()),
-  rating: z.string().min(1, "Please select a rating")
+  rating: z.string().min(1, "Please select a rating"),
+  type: z.enum(["movie", "tvshow", "popular", "other"]).default("other")
 });
 
 type UploadFormValues = z.infer<typeof uploadSchema>;
@@ -48,7 +48,8 @@ const UploadModal = ({ open, onOpenChange }: UploadModalProps) => {
       description: '',
       category: 'Other',
       year: new Date().getFullYear(),
-      rating: 'PG'
+      rating: 'PG',
+      type: 'other'
     }
   });
 
@@ -140,7 +141,8 @@ const UploadModal = ({ open, onOpenChange }: UploadModalProps) => {
           duration: duration,
           category: data.category,
           year: data.year,
-          rating: data.rating
+          rating: data.rating,
+          type: data.type
         });
         
         toast({
@@ -363,6 +365,27 @@ const UploadModal = ({ open, onOpenChange }: UploadModalProps) => {
                         >
                           {ratingOptions.map(rating => (
                             <option key={rating} value={rating}>{rating}</option>
+                          ))}
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <FormControl>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          {...field}
+                        >
+                          {["movie", "tvshow", "popular", "other"].map(type => (
+                            <option key={type} value={type}>{type}</option>
                           ))}
                         </select>
                       </FormControl>
