@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,7 +62,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom colors for our app
+				// Custom colors for Hotstar
+				hotstar: {
+					dark: '#0A0E17',
+					darker: '#060A12',
+					accent: '#7E22CE', // Purple
+					highlight: '#D946EF', // Bright purple
+					muted: '#334155',
+					light: '#F8FAFC'
+				},
+				// Keep pixelverse colors for backward compatibility
 				pixelverse: {
 					dark: '#0A0E17',
 					darker: '#060A12',
